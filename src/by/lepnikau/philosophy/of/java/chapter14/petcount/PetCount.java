@@ -1,6 +1,5 @@
 package by.lepnikau.philosophy.of.java.chapter14.petcount;
 
-import by.lepnikau.philosophy.of.java.chapter14.petcount.creator.ForNameCreator;
 import by.lepnikau.philosophy.of.java.chapter14.petcount.creator.PetCreator;
 import by.lepnikau.philosophy.of.java.chapter14.petcount.pet.*;
 import by.lepnikau.philosophy.of.java.chapter14.petcount.pet.cat.*;
