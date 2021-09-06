@@ -18,14 +18,6 @@ public class Position {
         }
     }
 
-    public String getTitle() {
-        return title;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
     public Person getPerson() {
         return person;
     }

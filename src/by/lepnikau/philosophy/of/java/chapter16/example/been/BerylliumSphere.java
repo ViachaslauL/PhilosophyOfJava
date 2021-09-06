@@ -1,0 +1,10 @@
+package by.lepnikau.philosophy.of.java.chapter16.example.been;
+
+public class BerylliumSphere {
+    private static long counter;
+    private final long id = counter++;
+
+    public String toString() {
+        return "Sphere " + id;
+    }
+}
