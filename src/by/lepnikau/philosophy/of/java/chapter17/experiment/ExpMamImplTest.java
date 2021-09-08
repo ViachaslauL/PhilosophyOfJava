@@ -2,7 +2,7 @@ package by.lepnikau.philosophy.of.java.chapter17.experiment;
 
 import java.util.Set;
 
-public class ExpMamImplTest {
+class ExpMamImplTest {
     public static void main(String[] args) {
         ExpMapImpl expMap = new ExpMapImpl();
         expMap.put("Key one", "Value one");

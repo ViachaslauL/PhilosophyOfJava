@@ -9,10 +9,10 @@ class ExpMapImpl implements ExpMap<String, String> {
     private int size;
     private Entry[] entries = new Entry[16];
 
-    public ExpMapImpl() {
+    ExpMapImpl() {
     }
 
-    public ExpMapImpl(int size) {
+    ExpMapImpl(int size) {
         this.size = size;
     }
 
