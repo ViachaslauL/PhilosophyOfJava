@@ -8,7 +8,7 @@ import static by.lepnikau.philosophy.of.java.util.PrintLN.*;
 
 public class Countries {
     public static final String[][] DATA = {
-            // Africa
+            // Africa 53
             {"ALGERIA", "Algiers"}, {"ANGOLA", "Luanda"},
             {"BENIN", "Porto-Novo"}, {"BOTSWANA", "Gaberone"},
             {"BURKINA FASO", "Ouagadougou"},
@@ -39,10 +39,9 @@ public class Countries {
             {"SWAZILAND", "Mbabane"}, {"TANZANIA", "Dodoma"},
             {"TOGO", "Lome"}, {"TUNISIA", "Tunis"},
             {"UGANDA", "Kampala"},
-            {"DEMOCRATIC REPUBLIC OF THE CONGO (ZAIRE)",
-                    "Kinshasa"},
+            {"DEMOCRATIC REPUBLIC OF THE CONGO (ZAIRE)", "Kinshasa"},
             {"ZAMBIA", "Lusaka"}, {"ZIMBABWE", "Harare"},
-            // Asia
+            // Asia 39
             {"AFGHANISTAN", "Kabul"}, {"BAHRAIN", "Manama"},
             {"BANGLADESH", "Dhaka"}, {"BHUTAN", "Thimphu"},
             {"BRUNEI", "Bandar Seri Begawan"},
@@ -66,7 +65,7 @@ public class Countries {
             {"THAILAND", "Bangkok"}, {"TURKEY", "Ankara"},
             {"UNITED ARAB EMIRATES", "Abu Dhabi"},
             {"VIETNAM", "Hanoi"}, {"YEMEN", "Sana'a"},
-            // Australia and Oceania
+            // Australia and Oceania 14
             {"AUSTRALIA", "Canberra"}, {"FIJI", "Suva"},
             {"KIRIBATI", "Bairiki"},
             {"MARSHALL ISLANDS", "Dalap-Uliga-Darrit"},
@@ -76,7 +75,7 @@ public class Countries {
             {"SOLOMON ISLANDS", "Honaira"}, {"TONGA", "Nuku'alofa"},
             {"TUVALU", "Fongafale"}, {"VANUATU", "< Port-Vila"},
             {"WESTERN SAMOA", "Apia"},
-            // Eastern Europe and former USSR
+            // Eastern Europe and former USSR 13
             {"ARMENIA", "Yerevan"}, {"AZERBAIJAN", "Baku"},
             {"BELARUS (BYELORUSSIA)", "Minsk"},
             {"BULGARIA", "Sofia"}, {"GEORGIA", "Tbilisi"},
@@ -84,7 +83,7 @@ public class Countries {
             {"MOLDOVA", "Chisinau"}, {"RUSSIA", "Moscow"},
             {"TAJIKISTAN", "Dushanbe"}, {"TURKMENISTAN", "Ashkabad"},
             {"UKRAINE", "Kyiv"}, {"UZBEKISTAN", "Tashkent"},
-            // Europe
+            // Europe 40
             {"ALBANIA", "Tirana"}, {"ANDORRA", "Andorra la Vella"},
             {"AUSTRIA", "Vienna"}, {"BELGIUM", "Brussels"},
             {"BOSNIA", "-"}, {"HERZEGOVINA", "Sarajevo"},
@@ -105,7 +104,7 @@ public class Countries {
             {"SLOVENIA", "Ljuijana"}, {"SPAIN", "Madrid"},
             {"SWEDEN", "Stockholm"}, {"SWITZERLAND", "Berne"},
             {"UNITED KINGDOM", "London"}, {"VATICAN CITY", "---"},
-            // North and Central America
+            // North and Central America 23
             {"ANTIGUA AND BARBUDA", "Saint John's"},
             {"BAHAMAS", "Nassau"},
             {"BARBADOS", "Bridgetown"}, {"BELIZE", "Belmopan"},
@@ -122,7 +121,7 @@ public class Countries {
             {"NEVIS", "Basseterre"}, {"ST. LUCIA", "Castries"},
             {"ST. VINCENT AND THE GRENADINES", "Kingstown"},
             {"UNITED STATES OF AMERICA", "Washington, D.C."},
-            // South America
+            // South America 13
             {"ARGENTINA", "Buenos Aires"},
             {"BOLIVIA", "Sucre (legal)/La Paz(administrative)"},
             {"BRAZIL", "Brasilia"}, {"CHILE", "Santiago"},
@@ -135,6 +134,7 @@ public class Countries {
 
     // Use AbstractMap by implementing entrySet()
     private static class FlyweightMap extends AbstractMap<String, String> {
+
         private static class Entry implements Map.Entry<String, String> {
             int index;
 
@@ -166,6 +166,7 @@ public class Countries {
         // Use AbstractSet by implementing size() & iterator()
         static class EntrySet extends AbstractSet<Map.Entry<String, String>> {
             private int size;
+            private int startIndex;
 
             EntrySet(int size) {
                 if (size < 0)
@@ -177,13 +178,32 @@ public class Countries {
                     this.size = size;
             }
 
+            EntrySet(int index, int size) {
+
+                if (index < 0) {
+                    this.startIndex = 0;
+                } else if (index >= DATA.length) {
+                    this.startIndex = DATA.length - 1;
+                } else {
+                    this.startIndex = index;
+                }
+
+                if (size < 0) {
+                    this.size = 0;
+                } else if (size + index > DATA.length) {
+                    this.size = DATA.length - 1;
+                } else {
+                    this.size = size + index;
+                }
+            }
+
             public int size() {
                 return size;
             }
 
             private class Iter implements Iterator<Map.Entry<String, String>> {
                 // Only one Entry object per Iterator:
-                private Entry entry = new Entry(-1);
+                private Entry entry = new Entry(startIndex - 1);
 
                 public boolean hasNext() {
                     return entry.index < size - 1;
@@ -221,6 +241,14 @@ public class Countries {
         };
     }
 
+    static Map<String, String> select(int index, int size) {
+        return new FlyweightMap() {
+            public Set<Map.Entry<String, String>> entrySet() {
+                return new EntrySet(index, size);
+            }
+        };
+    }
+
     static Map<String, String> map = new FlyweightMap();
     static List<String> names = new ArrayList<>(map.keySet());
 
@@ -240,6 +268,10 @@ public class Countries {
     // A partial list:
     public static List<String> names(int size) {
         return new ArrayList<>(select(size).keySet());
+    }
+
+    public static List<String> names(int index, int size) {
+        return new ArrayList<>(select(index, size).keySet());
     }
 
     public static void main(String[] args) {

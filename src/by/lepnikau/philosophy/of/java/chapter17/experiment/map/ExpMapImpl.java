@@ -1,4 +1,4 @@
-package by.lepnikau.philosophy.of.java.chapter17.experiment;
+package by.lepnikau.philosophy.of.java.chapter17.experiment.map;
 
 import java.util.Arrays;
 import java.util.LinkedHashSet;
