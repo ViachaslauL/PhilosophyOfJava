@@ -6,7 +6,7 @@ import java.util.*;
 
 class TaskSevenDemo {
     public static void main(String[] args) {
-        List<String> aList = new ArrayList<>(Countries.names(0,5));
+        List<String> aList = new ArrayList<>(Countries.names(0, 5));
         List<String> lList = new LinkedList<>(Countries.names(5, 5));
 
         printList(aList);
@@ -46,6 +46,4 @@ class TaskSevenDemo {
             System.out.println(arrayListIter.next());
         }
     }
-
-
 }
