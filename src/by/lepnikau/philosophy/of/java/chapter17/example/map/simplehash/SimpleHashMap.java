@@ -4,8 +4,9 @@ import by.lepnikau.philosophy.of.java.chapter17.example.map.slow.MapEntry;
 
 import java.util.*;
 
-public class SimpleHashMap<K,V> extends AbstractMap<K,V> {
+public class SimpleHashMap<K, V> extends AbstractMap<K, V> {
     private static final int SIZE = 997;
+    @SuppressWarnings("unchecked")
     private LinkedList<MapEntry<K, V>>[] buckets = new LinkedList[SIZE];
 
     public V put(K key, V val) {
@@ -18,7 +19,7 @@ public class SimpleHashMap<K,V> extends AbstractMap<K,V> {
         LinkedList<MapEntry<K, V>> bucket = buckets[index];
         MapEntry<K, V> pair = new MapEntry<>(key, val);
 
-        ListIterator<MapEntry<K, V>> it = bucket.listIterator(index);
+        ListIterator<MapEntry<K, V>> it = bucket.listIterator();
 
         while (it.hasNext()) {
             MapEntry<K, V> iPair = it.next();
@@ -48,9 +49,22 @@ public class SimpleHashMap<K,V> extends AbstractMap<K,V> {
     }
 
     @Override
-    public Set<Entry<K, V>> entrySet() {
-
-        return null;
+    public Set<Map.Entry<K, V>> entrySet() {
+        Set<Map.Entry<K, V>> set = new HashSet<>();
+        for (LinkedList<MapEntry<K, V>> bucket : buckets) {
+            if (bucket == null) continue;
+            set.addAll(bucket);
+        }
+        return set;
     }
 
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        for (LinkedList<MapEntry<K, V>> list : buckets) {
+            if (list != null)
+                sb.append(list).append("\n");
+        }
+        return sb.toString();
+    }
 }
