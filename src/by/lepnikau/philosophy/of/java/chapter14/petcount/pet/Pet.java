@@ -1,6 +1,7 @@
 package by.lepnikau.philosophy.of.java.chapter14.petcount.pet;
 
-import by.lepnikau.philosophy.of.java.chapter14.petcount.individual.Individual;
+
+import by.lepnikau.philosophy.of.java.chapter17.example.hashcode.Individual;
 
 public class Pet extends Individual {
 
